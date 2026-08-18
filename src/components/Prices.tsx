@@ -19,7 +19,7 @@ function PriceCard({
   prices: GroupedPrice[]
 }) {
   return (
-    <div className="priceCard">
+    <article className="priceCard">
       <h3>{title}</h3>
 
       {prices.map((item) => (
@@ -31,7 +31,7 @@ function PriceCard({
           <strong>{item.price}</strong>
         </div>
       ))}
-    </div>
+    </article>
   )
 }
 
@@ -100,13 +100,16 @@ function Prices() {
     <section id="prices" className="prices">
       <div className="pricesHeader">
         <div>
-          <span>LISTA DE PREȚURI</span>
-          <h2>Prețuri clare pentru fiecare ședință</h2>
+          <span>PREȚURI MASAJ</span>
+
+          <h2>
+            Prețuri pentru servicii de masaj în Chișinău
+          </h2>
         </div>
 
         <p>
-          Alege durata potrivită, iar la programare selectezi serviciul,
-          ziua și ora disponibilă.
+          Vezi prețurile și durata fiecărui serviciu MaryGold by Ana Massage,
+          apoi alege ședința potrivită și programează-te online.
         </p>
       </div>
 

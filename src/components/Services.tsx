@@ -37,10 +37,14 @@ function Services() {
         if (!grouped.has(name)) {
           grouped.set(name, {
             title: name,
-            subtitle: service.category || 'Masaj și relaxare',
+
+            subtitle:
+              service.category ||
+              'Servicii de masaj în Chișinău',
+
             text:
               service.description ||
-              'Serviciu profesional de masaj pentru relaxare și stare de bine.',
+              `Descoperă ${name.toLowerCase()} la MaryGold by Ana Massage în Chișinău, pentru relaxare, recuperare și stare de bine.`,
           })
         }
       })
@@ -51,13 +55,16 @@ function Services() {
   return (
     <section id="services" className="services">
       <div className="sectionHeader center">
-        <span>SERVICII</span>
+        <span>SERVICII DE MASAJ</span>
 
-        <h2>Alege terapia potrivită pentru tine</h2>
+        <h2>
+          Servicii de masaj în Chișinău pentru relaxare și recuperare
+        </h2>
 
         <p>
-          Fiecare serviciu este creat pentru o nevoie diferită: relaxare,
-          recuperare, remodelare sau detoxifiere.
+          Descoperă serviciile MaryGold by Ana Massage: masaj clasic,
+          terapeutic, anticelulitic, masaj cu miere, masaj cu ventuze și
+          alte terapii adaptate nevoilor tale.
         </p>
       </div>
 
@@ -87,7 +94,7 @@ function ServiceCard({
   text,
 }: ServiceCardProps) {
   return (
-    <div className="serviceCard">
+    <article className="serviceCard">
       <div className="smallIcon">
         <LotusIcon size={30} />
       </div>
@@ -97,7 +104,7 @@ function ServiceCard({
       <h4>{subtitle}</h4>
 
       <p>{text}</p>
-    </div>
+    </article>
   )
 }
 

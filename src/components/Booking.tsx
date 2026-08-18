@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react'
-import { createBooking, getAvailableTimes } from '../api/bookings'
-import { getServices, type Service } from '../api/services'
-
+import {
+  createBooking,
+  getAvailableTimes,
+} from '../api/bookings'
+import {
+  getServices,
+  type Service,
+} from '../api/services'
 
 function Booking() {
   const [services, setServices] = useState<Service[]>([])
@@ -14,33 +19,45 @@ function Booking() {
   const [notes, setNotes] = useState('')
   const [message, setMessage] = useState('')
   const [availableTimes, setAvailableTimes] = useState<string[]>([])
-const selectedService = services.find((service) => service.id === serviceId)
+
+  const selectedService = services.find(
+    (service) => service.id === serviceId
+  )
+
   useEffect(() => {
-  getServices().then((result) => {
-    setServices(result.data)
+    getServices()
+      .then((result) => {
+        const activeServices = result.data.filter(
+          (service) => service.isActive
+        )
 
-    if (result.data.length > 0) {
-      setServiceId(result.data[0].id)
-    }
-  })
-}, [])
+        setServices(activeServices)
 
-useEffect(() => {
-  if (!date || !serviceId) {
-    setAvailableTimes([])
-    return
-  }
+        if (activeServices.length > 0) {
+          setServiceId(activeServices[0].id)
+        }
+      })
+      .catch(console.error)
+  }, [])
 
-  getAvailableTimes(date, serviceId)
-    .then((times) => {
-      setAvailableTimes(times)
-      setTime('')
-    })
-    .catch((error) => {
-      console.error(error)
+  useEffect(() => {
+    if (!date || !serviceId) {
       setAvailableTimes([])
-    })
-}, [date, serviceId])
+      setTime('')
+      return
+    }
+
+    getAvailableTimes(date, serviceId)
+      .then((times) => {
+        setAvailableTimes(times)
+        setTime('')
+      })
+      .catch((error) => {
+        console.error(error)
+        setAvailableTimes([])
+        setTime('')
+      })
+  }, [date, serviceId])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -57,6 +74,7 @@ useEffect(() => {
       })
 
       setMessage('Programarea a fost trimisă cu succes!')
+
       setClientName('')
       setPhone('')
       setEmail('')
@@ -64,7 +82,11 @@ useEffect(() => {
       setTime('')
       setNotes('')
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'A apărut o eroare.')
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : 'A apărut o eroare.'
+      )
     }
   }
 
@@ -72,46 +94,73 @@ useEffect(() => {
     <section id="booking" className="booking">
       <div className="bookingInfo">
         <span>PROGRAMARE ONLINE</span>
-        <h2>Rezervă o ședință</h2>
+
+        <h2>
+          Programare masaj în Chișinău
+        </h2>
+
         <p>
-          Alege serviciul, data și ora. Programarea va ajunge direct în panoul administratorului.
+          Alege serviciul de masaj dorit, data și ora disponibilă.
+          Programarea ta va fi înregistrată imediat la MaryGold by Ana Massage.
         </p>
       </div>
 
       <form className="bookingForm" onSubmit={handleSubmit}>
-        <label>Serviciul</label>
-        <select value={serviceId} onChange={(e) => setServiceId(e.target.value)}>
-  {services.map((service) => (
-    <option key={service.id} value={service.id}>
-      {service.name} — {service.duration} min — {service.price} lei
-    </option>
-  ))}
-</select>
-{selectedService && (
-  <div className="selectedServiceCard">
-    <h3>{selectedService.name}</h3>
+        <label htmlFor="service">
+          Serviciul de masaj
+        </label>
 
-    <p>
-      <strong>Categorie:</strong> {selectedService.category}
-    </p>
+        <select
+          id="service"
+          value={serviceId}
+          onChange={(e) => setServiceId(e.target.value)}
+          required
+        >
+          {services.map((service) => (
+            <option
+              key={service.id}
+              value={service.id}
+            >
+              {service.name} — {service.duration} min — {service.price} lei
+            </option>
+          ))}
+        </select>
 
-    <p>
-      <strong>Durată:</strong> {selectedService.duration} minute
-    </p>
+        {selectedService && (
+          <div className="selectedServiceCard">
+            <h3>{selectedService.name}</h3>
 
-    <p>
-      <strong>Preț:</strong> {selectedService.price} lei
-    </p>
+            {selectedService.category && (
+              <p>
+                <strong>Categorie:</strong>{' '}
+                {selectedService.category}
+              </p>
+            )}
 
-    {selectedService.description && (
-      <p>{selectedService.description}</p>
-    )}
-  </div>
-)}
+            <p>
+              <strong>Durată:</strong>{' '}
+              {selectedService.duration} minute
+            </p>
+
+            <p>
+              <strong>Preț:</strong>{' '}
+              {selectedService.price} lei
+            </p>
+
+            {selectedService.description && (
+              <p>{selectedService.description}</p>
+            )}
+          </div>
+        )}
+
         <div className="formGrid">
           <div>
-            <label>Data</label>
+            <label htmlFor="booking-date">
+              Data
+            </label>
+
             <input
+              id="booking-date"
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
@@ -120,8 +169,12 @@ useEffect(() => {
           </div>
 
           <div>
-            <label>Telefon</label>
+            <label htmlFor="booking-phone">
+              Telefon
+            </label>
+
             <input
+              id="booking-phone"
               type="tel"
               placeholder="+373 ..."
               value={phone}
@@ -132,20 +185,26 @@ useEffect(() => {
         </div>
 
         <label>Ora disponibilă</label>
+
         <div className="timeGrid">
           {availableTimes.map((hour) => (
-  <button
-    key={hour}
-    type="button"
-    className={time === hour ? 'timeActive' : ''}
-    onClick={() => setTime(hour)}
-  >
-    {hour}
-  </button>
-))}
+            <button
+              key={hour}
+              type="button"
+              className={time === hour ? 'timeActive' : ''}
+              onClick={() => setTime(hour)}
+            >
+              {hour}
+            </button>
+          ))}
         </div>
 
+        <label htmlFor="booking-name">
+          Nume
+        </label>
+
         <input
+          id="booking-name"
           type="text"
           placeholder="Numele tău"
           value={clientName}
@@ -153,24 +212,42 @@ useEffect(() => {
           required
         />
 
+        <label htmlFor="booking-email">
+          Email
+        </label>
+
         <input
+          id="booking-email"
           type="email"
-          placeholder="Email pentru trimiterea confirmării"
+          placeholder="Email pentru confirmare"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
 
+        <label htmlFor="booking-notes">
+          Mesaj
+        </label>
+
         <textarea
+          id="booking-notes"
           placeholder="Mesaj opțional..."
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
         />
 
-        {message && <p className="formMessage">{message}</p>}
+        {message && (
+          <p className="formMessage">
+            {message}
+          </p>
+        )}
 
-        <button className="submitBtn" type="submit" disabled={!time}>
-          Trimite programarea
+        <button
+          className="submitBtn"
+          type="submit"
+          disabled={!time}
+        >
+          Programează-te la masaj
         </button>
       </form>
     </section>

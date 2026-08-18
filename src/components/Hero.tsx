@@ -3,15 +3,18 @@ function Hero() {
     <section className="hero">
       <div className="heroText">
         <div className="badge">
-          ✣ Cabinet masaj • relaxare • recuperare • detoxifiere
+          ✣ Cabinet de masaj în Chișinău • relaxare • recuperare • detoxifiere
         </div>
 
-        <h1>Răsfață-ți corpul cu o experiență premium de masaj</h1>
+        <h1>
+          Masaj în Chișinău pentru relaxare, recuperare și stare de bine
+        </h1>
 
         <p>
-          La MaryGold by Ana Massage, fiecare ședință este gândită pentru
-          relaxare, echilibru și stare de bine. Alege serviciul dorit și
-          rezervă online ora potrivită pentru tine.
+          La MaryGold by Ana Massage beneficiezi de servicii de masaj
+          adaptate nevoilor tale, într-o atmosferă relaxantă și confortabilă.
+          Alege serviciul dorit și programează-te online la ora potrivită
+          pentru tine.
         </p>
 
         <div className="heroButtons">
@@ -32,6 +35,7 @@ function Hero() {
 
           <div className="miniCard">
             <p>PROGRAMĂRI ONLINE</p>
+
             <strong>
               Alege data, ora și serviciul în câteva secunde.
             </strong>
