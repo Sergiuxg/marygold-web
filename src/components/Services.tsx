@@ -6,6 +6,38 @@ type GroupedService = {
   title: string
   subtitle: string
   text: string
+  slug?: string
+}
+
+function getServiceSlug(name: string) {
+  const normalized = name
+    .toLowerCase()
+    .replace(/ă|â/g, 'a')
+    .replace(/î/g, 'i')
+    .replace(/ș|ş/g, 's')
+    .replace(/ț|ţ/g, 't')
+
+  if (normalized.includes('terapeutic')) {
+    return '/masaj-terapeutic-chisinau'
+  }
+
+  if (normalized.includes('anticelulitic')) {
+    return '/masaj-anticelulitic-chisinau'
+  }
+
+  if (normalized.includes('miere')) {
+    return '/masaj-cu-miere-chisinau'
+  }
+
+  if (normalized.includes('ventuze')) {
+    return '/masaj-cu-ventuze-chisinau'
+  }
+
+  if (normalized.includes('clasic')) {
+    return '/masaj-clasic-chisinau'
+  }
+
+  return undefined
 }
 
 function Services() {
@@ -36,16 +68,13 @@ function Services() {
 
         if (!grouped.has(name)) {
           grouped.set(name, {
-            title: name,
-
-            subtitle:
-              service.category ||
-              'Servicii de masaj în Chișinău',
-
-            text:
-              service.description ||
-              `Descoperă ${name.toLowerCase()} la MaryGold by Ana Massage în Chișinău, pentru relaxare, recuperare și stare de bine.`,
-          })
+  title: name,
+  subtitle: service.category || 'Masaj și relaxare',
+  text:
+    service.description ||
+    'Serviciu profesional de masaj pentru relaxare și stare de bine.',
+  slug: getServiceSlug(name),
+})
         }
       })
 
@@ -70,12 +99,13 @@ function Services() {
 
       <div className="serviceGrid">
         {groupedServices.map((service) => (
-          <ServiceCard
-            key={service.title}
-            title={service.title}
-            subtitle={service.subtitle}
-            text={service.text}
-          />
+         <ServiceCard
+  key={service.title}
+  title={service.title}
+  subtitle={service.subtitle}
+  text={service.text}
+  slug={service.slug}
+/>
         ))}
       </div>
     </section>
@@ -86,15 +116,17 @@ type ServiceCardProps = {
   title: string
   subtitle: string
   text: string
+  slug?: string
 }
 
 function ServiceCard({
   title,
   subtitle,
   text,
+  slug,
 }: ServiceCardProps) {
   return (
-    <article className="serviceCard">
+    <div className="serviceCard">
       <div className="smallIcon">
         <LotusIcon size={30} />
       </div>
@@ -104,7 +136,13 @@ function ServiceCard({
       <h4>{subtitle}</h4>
 
       <p>{text}</p>
-    </article>
+
+      {slug && (
+        <a href={slug} className="serviceDetailsLink">
+          Află mai multe →
+        </a>
+      )}
+    </div>
   )
 }
 

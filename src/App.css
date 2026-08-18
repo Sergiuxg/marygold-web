@@ -2115,3 +2115,18 @@ nav a {
     font-size: 27px;
   }
 }
+
+.serviceDetailsLink {
+  display: inline-block;
+  margin-top: 14px;
+
+  color: var(--gold);
+  font-weight: 700;
+  text-decoration: none;
+
+  transition: 0.2s ease;
+}
+
+.serviceDetailsLink:hover {
+  transform: translateX(4px);
+}
