@@ -13,6 +13,12 @@ import Statistics from './pages/dashboard/Statistics'
 import Calendar from './pages/dashboard/Calendar'
 import Revenue from './pages/dashboard/Revenue'
 
+import MassageClassic from './pages/MassageClassic'
+import MassageTherapeutic from './pages/MassageTherapeutic'
+import MassageAnticellulite from './pages/MassageAnticellulite'
+import MassageHoney from './pages/MassageHoney'
+import MassageCupping from './pages/MassageCupping'
+
 
 function App() {
   return (
@@ -23,6 +29,31 @@ function App() {
 
         {/* Login */}
         <Route path="/login" element={<Login />} />
+
+        <Route
+  path="/masaj-clasic-chisinau"
+  element={<MassageClassic />}
+/>
+
+<Route
+  path="/masaj-terapeutic-chisinau"
+  element={<MassageTherapeutic />}
+/>
+
+<Route
+  path="/masaj-anticelulitic-chisinau"
+  element={<MassageAnticellulite />}
+/>
+
+<Route
+  path="/masaj-cu-miere-chisinau"
+  element={<MassageHoney />}
+/>
+
+<Route
+  path="/masaj-cu-ventuze-chisinau"
+  element={<MassageCupping />}
+/>
 
         {/* Admin */}
         <Route
