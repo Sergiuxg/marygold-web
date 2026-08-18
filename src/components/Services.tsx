@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { getServices, type Service } from '../api/services'
 import LotusIcon from './LotusIcon'
 
@@ -17,6 +18,10 @@ function getServiceSlug(name: string) {
     .replace(/ș|ş/g, 's')
     .replace(/ț|ţ/g, 't')
 
+  if (normalized.includes('clasic')) {
+    return '/masaj-clasic-chisinau'
+  }
+
   if (normalized.includes('terapeutic')) {
     return '/masaj-terapeutic-chisinau'
   }
@@ -31,10 +36,6 @@ function getServiceSlug(name: string) {
 
   if (normalized.includes('ventuze')) {
     return '/masaj-cu-ventuze-chisinau'
-  }
-
-  if (normalized.includes('clasic')) {
-    return '/masaj-clasic-chisinau'
   }
 
   return undefined
@@ -68,13 +69,18 @@ function Services() {
 
         if (!grouped.has(name)) {
           grouped.set(name, {
-  title: name,
-  subtitle: service.category || 'Masaj și relaxare',
-  text:
-    service.description ||
-    'Serviciu profesional de masaj pentru relaxare și stare de bine.',
-  slug: getServiceSlug(name),
-})
+            title: name,
+
+            subtitle:
+              service.category ||
+              'Servicii de masaj în Chișinău',
+
+            text:
+              service.description ||
+              `Descoperă ${name.toLowerCase()} la MaryGold by Ana Massage în Chișinău, pentru relaxare, recuperare și stare de bine.`,
+
+            slug: getServiceSlug(name),
+          })
         }
       })
 
@@ -99,13 +105,13 @@ function Services() {
 
       <div className="serviceGrid">
         {groupedServices.map((service) => (
-         <ServiceCard
-  key={service.title}
-  title={service.title}
-  subtitle={service.subtitle}
-  text={service.text}
-  slug={service.slug}
-/>
+          <ServiceCard
+            key={service.title}
+            title={service.title}
+            subtitle={service.subtitle}
+            text={service.text}
+            slug={service.slug}
+          />
         ))}
       </div>
     </section>
@@ -126,7 +132,7 @@ function ServiceCard({
   slug,
 }: ServiceCardProps) {
   return (
-    <div className="serviceCard">
+    <article className="serviceCard">
       <div className="smallIcon">
         <LotusIcon size={30} />
       </div>
@@ -138,11 +144,16 @@ function ServiceCard({
       <p>{text}</p>
 
       {slug && (
-        <a href={slug} className="serviceDetailsLink">
-          Află mai multe →
-        </a>
+        <Link
+          to={slug}
+          className="serviceDetailsLink"
+          aria-label={`Află mai multe despre ${title}`}
+        >
+          Află mai multe
+          <span aria-hidden="true"> →</span>
+        </Link>
       )}
-    </div>
+    </article>
   )
 }
 

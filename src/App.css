@@ -2130,3 +2130,25 @@ nav a {
 .serviceDetailsLink:hover {
   transform: translateX(4px);
 }
+
+.serviceDetailsLink {
+  display: inline-flex;
+  align-items: center;
+
+  margin-top: 8px;
+
+  color: var(--gold);
+  font-size: 15px;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.serviceDetailsLink:hover {
+  transform: translateX(5px);
+  opacity: 0.8;
+}
