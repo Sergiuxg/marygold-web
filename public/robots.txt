@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin
+Disallow: /developer
+Disallow: /login
+
+Sitemap: https://marygold.md/sitemap.xml
