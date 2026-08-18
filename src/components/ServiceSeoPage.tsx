@@ -53,6 +53,31 @@ function ServiceSeoPage({
           property="og:image"
           content="https://marygold.md/lotus.png"
         />
+
+        <script type="application/ld+json">
+  {JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: label,
+    description,
+    url: `https://marygold.md${canonical}`,
+    areaServed: {
+      '@type': 'City',
+      name: 'Chișinău',
+    },
+    provider: {
+      '@type': 'LocalBusiness',
+      name: 'MaryGold by Ana Massage',
+      url: 'https://marygold.md/',
+      telephone: '+37367545494',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Chișinău',
+        addressCountry: 'MD',
+      },
+    },
+  })}
+</script>
       </Helmet>
 
       <Header />
